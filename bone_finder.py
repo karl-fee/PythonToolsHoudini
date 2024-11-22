@@ -1,17 +1,14 @@
-# Global variable for bone count
-bone_count = 0
-
 # Recursively finds bone nodes starting from the specified node
 def bone_finder(level, node):
-
-    global bone_count
+    
+    bone_count = 0
 
     if node.type().name() == "bone":
         print(f"{' ' * level}{node.name()}")
         bone_count += 1
 
     for child in node.outputs():
-        bone_finder(level + 1, child)
+        bone_count += bone_finder(level + 1, child)
 
     return bone_count
 
@@ -39,10 +36,6 @@ def main():
 
         selected_node = hou.node(selected_node_path)
         validate_node(selected_node)
-
-        # Reset bone count
-        global bone_count
-        bone_count = 0
 
         # Run bone_finder function
         print(f"Starting bone search from: {selected_node.path()}")
